@@ -1,6 +1,6 @@
-#include "Event.h"
-#include "EventSender.h"
-#include "EventReceiver.h"
+#include "src/Event.h"
+#include "src/EventSender.h"
+#include "src/EventReceiver.h"
 
 using namespace events;
 
