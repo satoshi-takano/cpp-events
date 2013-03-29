@@ -24,4 +24,7 @@ int main(int argc, const char *argv[]) {
     sender->invoke(event_0);
     printf("I'll send event_1...\n");
     sender->invoke(event_1);
+    
+    delete sender;
+    delete receiver;
 }
