@@ -24,23 +24,30 @@
 
 #pragma once
 
-#include "Event.h"
+#include <functional>
+#include "Event.hpp"
+#include "ReceiverBase.hpp"
 
 namespace events {
-    
-    class ReceiverBase {
+    template <class _Tp, class _Ep>
+    class EventReceiver : public ReceiverBase {
+        // EventSender からのみインスタンス化を許す
         friend class EventSender;
         
     public:
-        ReceiverBase(){}
-        virtual ~ReceiverBase(){}
-        void* getObserver() const
-        {
-            return mObserver;
-        }
+        ~EventReceiver() {}
+        
     private:
-        virtual void invoke(Event& evt) = 0;
-        void* mObserver;
+        EventReceiver(EventType type, _Tp* target, void (_Tp::*function)(_Ep*)) : mTarget(target), mMemFun(function){};
+        
+        void invoke(Event& evt) {
+            // EventSender の invoke メソッドの引数は Event 型であり
+            // ダウンキャスト成功が保証されているので null チェックはしない.
+            _Ep* e = dynamic_cast<_Ep*>(&evt);
+            mMemFun(mTarget, e);
+        }
+        
+        std::mem_fun1_t<void, _Tp, _Ep*> mMemFun;
+        _Tp* mTarget;
     };
-    
 }

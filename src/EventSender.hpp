@@ -29,9 +29,9 @@
 #include <vector>
 #include <functional>
 
-#include "Event.h"
-#include "ReceiverBase.h"
-#include "EventReceiver.h"
+#include "Event.hpp"
+#include "ReceiverBase.hpp"
+#include "EventReceiver.hpp"
 
 namespace events {
     
